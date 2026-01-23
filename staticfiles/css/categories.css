@@ -1,0 +1,101 @@
+    .cat-wrap{
+        max-width: 1100px;
+        margin: 30px auto;
+        padding: 20px;
+        font-family: Arial, sans-serif;
+    }
+
+    /* ✅ Title Box */
+    .cat-title-box{
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 22px;
+        text-align: center;
+        box-shadow: 0px 6px 22px rgba(0,0,0,0.08);
+        margin-bottom: 25px;
+    }
+
+    .cat-title-box h2{
+        font-size: 26px;
+        margin: 0 0 8px;
+        color: #111;
+    }
+
+    .cat-title-box p{
+        margin: 0;
+        font-size: 14px;
+        color: #666;
+    }
+
+    /* ✅ Grid */
+    .cat-grid{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+    }
+
+    /* ✅ Card */
+    .cat-card{
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 20px;
+        box-shadow: 0px 6px 18px rgba(0,0,0,0.08);
+        border: 1px solid rgba(0,0,0,0.05);
+        text-align: center;
+        transition: 0.25s ease;
+    }
+
+    .cat-card:hover{
+        transform: translateY(-6px);
+        box-shadow: 0px 10px 25px rgba(0,0,0,0.12);
+    }
+
+    .cat-card img{
+        width: 70px;
+        height: 70px;
+        object-fit: contain;
+        margin-bottom: 12px;
+    }
+
+    .cat-card h3{
+        font-size: 18px;
+        margin: 6px 0;
+        color: #111;
+    }
+
+    .cat-card p{
+        margin: 0 0 14px;
+        font-size: 14px;
+        color: #666;
+        line-height: 1.5;
+    }
+
+    /* ✅ Button */
+    .cat-btn{
+        display: inline-block;
+        text-decoration: none;
+        background: #0f172a;
+        color: white;
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-size: 14px;
+        transition: 0.3s ease;
+    }
+
+    .cat-btn:hover{
+        background: #000;
+        transform: scale(1.05);
+    }
+
+    /* ✅ Responsive */
+    @media (max-width: 1000px){
+        .cat-grid{
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 550px){
+        .cat-grid{
+            grid-template-columns: 1fr;
+        }
+    }
