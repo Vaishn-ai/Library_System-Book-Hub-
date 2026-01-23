@@ -26,7 +26,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('show_book_url')
+            return redirect('home_url')
         else:
             print("Invalid credentials")
     template_name = 'auth_app/login.html'
