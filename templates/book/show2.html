@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+<title>All Books</title>
+<link rel="stylesheet" href="{% static 'css/show.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<form method="GET" class="filter-box">
+
+    <input type="text" name="author" placeholder="Filter by Author"
+           value="{{ author|default:'' }}">
+
+    <input type="text" name="genre" placeholder="Filter by Genre"
+           value="{{ genre|default:'' }}">
+
+    <input type="number" name="year_from" placeholder="Year From"
+           value="{{ year_from|default:'' }}">
+
+    <input type="number" name="year_to" placeholder="Year To"
+           value="{{ year_to|default:'' }}">
+
+    <select name="sort" class="sort-select">
+        <option value="">-- Sort By --</option>
+
+        <option value="title_asc" {% if sort == "title_asc" %}selected{% endif %}>
+            Title (A-Z)
+        </option>
+        <option value="title_desc" {% if sort == "title_desc" %}selected{% endif %}>
+            Title (Z-A)
+        </option>
+
+        <option value="year_new" {% if sort == "year_new" %}selected{% endif %}>
+            Publication Year (Newest)
+        </option>
+        <option value="year_old" {% if sort == "year_old" %}selected{% endif %}>
+            Publication Year (Oldest)
+        </option>
+
+        <option value="copies_high" {% if sort == "copies_high" %}selected{% endif %}>
+            Copies (High → Low)
+        </option>
+        <option value="copies_low" {% if sort == "copies_low" %}selected{% endif %}>
+            Copies (Low → High)
+        </option>
+    </select>   
+
+    <button type="submit" class="filter-btn">Apply</button>
+    <a href="{% url 'show_book_url' %}" class="clear-btn">Clear</a>
+
+
+</form>
+
+
+<div class="show-container">
+
+    <div class="top-bar">
+        <h2>📚 Library Books</h2>
+
+        <a href="{% url 'create_book_url' %}" class="add-btn">+ Add Book</a>
+    </div>
+
+    <form method="GET" class="search-box">
+        <input type="text" name="q" placeholder="Search book by title / author..." value="{{ request.GET.q }}">
+        <button type="submit">Search</button>
+    </form>
+
+        <div class="table-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Sr No</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Genre</th>
+                    <th>Year</th>
+                    <th>ISBN</th>
+                    <th>Copies</th>ions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.genre }}</td>
+                    <td>{{ book.publication_year }}</td>
+                    <td>{{ book.isbn }}</td>
+                    <td>{{ book.copies_available }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="empty-msg">No books found ❌</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

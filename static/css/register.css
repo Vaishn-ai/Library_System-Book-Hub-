@@ -1,0 +1,133 @@
+
+    .register-wrap{
+        min-height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px 15px;
+        font-family: Arial, sans-serif;
+    }
+
+    .register-card{
+        width: 420px;
+        background: #ffffff;
+        padding: 28px;
+        border-radius: 16px;
+        box-shadow: 0px 8px 25px rgba(0,0,0,0.12);
+        border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .register-head{
+        text-align: center;
+        margin-bottom: 18px;
+    }
+
+    .register-head h2{
+        margin: 0 0 6px;
+        font-size: 24px;
+        color: #111;
+    }
+
+    .register-head p{
+        margin: 0;
+        color: #666;
+        font-size: 14px;
+    }
+
+    /* ✅ Error Box */
+    .error-box{
+        background: #ffecec;
+        border: 1px solid #ffb3b3;
+        padding: 12px;
+        border-radius: 10px;
+        margin-bottom: 14px;
+        color: #b30000;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    /* ✅ Form Styling */
+    .form-box p{
+        margin-bottom: 12px;
+    }
+
+    .form-box label{
+        display: block;
+        font-weight: bold;
+        margin-bottom: 6px;
+        color: #333;
+        font-size: 14px;
+    }
+
+    .form-box input{
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 14px;
+        outline: none;
+    }
+
+    .form-box input:focus{
+        border-color: #4CAF50;
+        box-shadow: 0 0 6px rgba(76,175,80,0.3);
+    }
+
+    /* ✅ Help Text */
+    .helptext{
+        font-size: 12px;
+        color: #666;
+        display: block;
+        margin-top: 5px;
+    }
+
+    ul{
+        margin: 6px 0 0;
+        padding-left: 18px;
+        font-size: 12px;
+        color: #666;
+    }
+
+    /* ✅ Register Button */
+    .btn-register{
+        width: 100%;
+        margin-top: 10px;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        background: #4CAF50;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        font-weight: bold;
+    }
+
+    .btn-register:hover{
+        background: #43a047;
+        transform: scale(1.02);
+    }
+
+    /* ✅ Login Text */
+    .login-text{
+        margin-top: 14px;
+        text-align: center;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .login-text a{
+        color: #2196F3;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .login-text a:hover{
+        text-decoration: underline;
+    }
+
+    @media(max-width: 500px){
+        .register-card{
+            width: 100%;
+        }
+    }

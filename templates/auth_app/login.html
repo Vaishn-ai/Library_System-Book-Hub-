@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+<title>Login - PAGE</title>
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="login-wrap">
+
+    <div class="login-card">
+
+        <div class="login-head">
+            <h2>🔐 Login</h2>
+            <p>Welcome back! Please login to continue.</p>
+        </div>
+
+       
+        <form method="POST" class="login-form">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Enter your username" required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="btn-login">Login</button>
+
+            <p class="register-text">
+                Don't have an account?
+                <a href="{% url 'register_url' %}">Register</a>
+            </p>
+        </form>
+
+    </div>
+</div>
+
+
+{% endblock %}

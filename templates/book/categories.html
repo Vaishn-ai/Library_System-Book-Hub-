@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+<title>Categories - PAGE</title>
+<link rel="stylesheet" href="{% static 'css/categories.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="cat-wrap">
+
+    
+    <div class="cat-title-box">
+        <h2>📌 Book Categories</h2>
+        <p>Browse books category wise and explore your library collection.</p>
+    </div>
+
+    <div class="cat-grid">
+
+      
+        <div class="cat-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/29/29302.png" alt="Fiction">
+            <h3>Fiction</h3>
+            <p>Stories, novels, and imaginary worlds.</p>
+            <a href="#" class="cat-btn">View Books</a>
+        </div>
+
+        
+        <div class="cat-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/1355/1355680.png" alt="Science">
+            <h3>Science</h3>
+            <p>Physics, chemistry, biology & discoveries.</p>
+            <a href="#" class="cat-btn">View Books</a>
+        </div>
+
+  
+        <div class="cat-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/2942/2942922.png" alt="History">
+            <h3>History</h3>
+            <p>Past events, cultures, and civilizations.</p>
+            <a href="#" class="cat-btn">View Books</a>
+        </div>
+
+      
+        <div class="cat-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/3426/3426653.png" alt="Technology">
+            <h3>Technology</h3>
+            <p>Programming, AI, and computer science.</p>
+            <a href="#" class="cat-btn">View Books</a>
+        </div>
+
+      
+        <div class="cat-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/1256/1256650.png" alt="Motivation">
+            <h3>Motivation</h3>
+            <p>Self-improvement and productivity books.</p>
+            <a href="#" class="cat-btn">View Books</a>
+        </div>
+
+    
+        <div class="cat-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/2647/2647625.png" alt="Education">
+            <h3>Education</h3>
+            <p>Study materials, guides, and references.</p>
+            <a href="#" class="cat-btn">View Books</a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

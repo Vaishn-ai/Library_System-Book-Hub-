@@ -1,0 +1,335 @@
+<nav class="nav">
+  <div class="nav-inner">
+
+   
+    <a href="{% url 'home_url' %}" class="brand">
+      <span class="brand-icon">📚</span>
+      <span class="brand-text"> BookHub </span>
+    </a>
+
+    <ul class="menu">
+      <li><a href="{% url 'home_url' %}" class="link">Home</a></li>
+
+      {% if user.is_authenticated %}
+        <li><a href="{% url 'create_book_url' %}" class="link">Form</a></li>
+        <li><a href="{% url 'show2_book_url' %}" class="link">Show</a></li>
+      {% endif %}
+
+      
+      <li><a href="{% url 'about_url' %}" class="link">About</a></li>
+      <li><a href="{% url 'contact_url' %}" class="link">Contact</a></li>
+      <li><a href="{% url 'categories_url' %}" class="link">Categories</a></li>
+
+      {% if user.is_authenticated and user.is_superuser %}
+        <li><a href="{% url 'show_book_url' %}" class="link">Edit</a></li>
+        <li><a href="/admin/" class="link admin">Admin</a></li>
+      {% endif %}
+    </ul>
+
+    <div class="right">
+
+      {% if user.is_authenticated %}
+        <div class="user-chip">
+          <span class="hello">Hi,</span>
+          <span class="username">{{ user.username }}</span>
+
+          {% if user.is_superuser %}
+            <span class="role admin-role">Admin</span>
+          {% else %}
+            <span class="role user-role">User</span>
+          {% endif %}
+        </div>
+
+        <a href="{% url 'logout_url' %}" class="btn btn-logout">Logout</a>
+
+      {% else %}
+        <a href="{% url 'login_url' %}" class="btn btn-login">Login</a>
+        <a href="{% url 'register_url' %}" class="btn btn-register">Register</a>
+      {% endif %}
+
+    </div>
+
+  </div>
+</nav>
+
+<style>
+
+ .nav-inner {
+  display: flex;
+  align-items: center;  
+  justify-content: space-between;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+
+.right {
+  display: flex;
+  align-items: center;   
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn {
+  height: 44px;                 
+  min-height: 44px;
+  padding: 0 20px;              
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+
+  display: flex;                
+  align-items: center;          
+  justify-content: center;
+
+  line-height: 44px;            
+  border: 2px solid transparent;
+  margin: 0;                    
+}
+
+
+.btn-login {
+  background: #ffffff;
+  color: #0b1324;
+  border-color: #ffffff;
+}
+
+
+.btn-register {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.nav {
+  width: 100%;
+  background: #0b1324; 
+  padding: 14px 0;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+
+.nav-inner {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.brand-icon {
+  font-size: 22px;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.brand-text {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+}
+
+
+.link {
+  text-decoration: none;
+  color: #cbd5e1;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  transition: 0.25s ease;
+}
+
+.link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+
+.link.admin {
+  color: #22c55e;
+  font-weight: 800;
+}
+
+.link.admin:hover {
+  background: rgba(34, 197, 94, 0.15);
+}
+
+
+.right {
+  display: flex;
+  align-items: center; 
+  gap: 12px;
+}
+
+
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.hello {
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.username {
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.role {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.admin-role {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.user-role {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+}
+
+
+.btn {
+  height: 42px;           
+  padding: 0 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  line-height: 1;          
+  transition: 0.25s ease;
+  cursor: pointer;
+}
+
+
+.btn-login {
+  background: #ffffff;
+  color: #0b1324;
+  border: 2px solid #ffffff;
+}
+
+.btn-login:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.25);
+}
+
+
+.btn-register {
+  background: #3b82f6;
+  color: #ffffff;
+  border: 2px solid #3b82f6;
+}
+
+.btn-register:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 18px rgba(0, 0, 0, 0.25);
+}
+
+.btn-logout {
+  background: #ef4444;
+  color: #ffffff;
+  border: 2px solid #ef4444;
+}
+
+.btn-logout:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+  transform: translateY(-1px);
+}
+
+
+@media (max-width: 950px) {
+  .nav-inner {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .menu {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .right {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .brand-text {
+    font-size: 18px;
+  }
+
+  .link {
+    font-size: 14px;
+    padding: 7px 10px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .right {
+    width: 100%;
+  }
+}
+
+  
+</style>

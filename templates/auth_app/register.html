@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+<title>Register - PAGE</title>
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="register-wrap">
+
+    <div class="register-card">
+
+        <div class="register-head">
+            <h2>📝 Create Account</h2>
+            <p>Join BookHub and manage your books easily</p>
+        </div>
+
+        <form method="POST" class="register-form">
+            {% csrf_token %}
+
+          
+            {% if form.errors %}
+            <div class="error-box">
+                <p>⚠ Please fix the errors below</p>
+            </div>
+            {% endif %}
+
+            <div class="form-box">
+                {{ form.as_p }}
+            </div>
+
+            <button type="submit" class="btn-register">Register</button>
+
+            <p class="login-text">
+                Already have an account?
+                <a href="{% url 'login_url' %}">Login</a>
+            </p>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

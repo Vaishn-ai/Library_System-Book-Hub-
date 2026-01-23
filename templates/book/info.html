@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% load static%}
+
+{% block title %}
+<title>Book Details - {{ book.title }}</title>
+<link rel="stylesheet" href="{% static 'css/info.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+<div class="genre-bg
+    {% if book.genre|lower == 'rom-com' or book.genre|lower == 'romcom' or book.genre|lower == 'romance' %}
+        bg-romantic
+    {% elif book.genre|lower == 'science' %}
+        bg-science
+    {% elif book.genre|lower == 'technology' %}
+        bg-tech
+    {% elif book.genre|lower == 'history' %}
+        bg-history
+    {% else %}
+        bg-default
+    {% endif %}
+">
+
+    <div class="overlay"></div>
+
+    <div class="info-wrap">
+
+   
+        <div class="info-head glass">
+            <h2>📖 Book Details</h2>
+            <p>Complete information about the selected book in LibrarySys.</p>
+        </div>
+
+ 
+        <div class="info-card glass">
+
+    
+            <div class="book-preview">
+
+           
+                <div class="book-image">
+                    {% if book.genre|lower == "rom-com" or book.genre|lower == "romcom" or book.genre|lower == "romance" %}
+                        <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Romantic">
+                    {% elif book.genre|lower == "science" %}
+                        <img src="https://cdn-icons-png.flaticon.com/512/2942/2942188.png" alt="Science">
+                    {% elif book.genre|lower == "technology" %}
+                        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712107.png" alt="Technology">
+                    {% elif book.genre|lower == "history" %}
+                        <img src="https://cdn-icons-png.flaticon.com/512/4332/4332452.png" alt="History">
+                    {% else %}
+                        <img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" alt="Book">
+                    {% endif %}
+                </div>
+
+                <h3 class="book-title">{{ book.title }}</h3>
+                <p class="book-author">by {{ book.author }}</p>
+
+             
+                <div class="badge-row">
+                    <span class="badge dark">🏷 {{ book.genre }}</span>
+
+                    {% if book.copies_available > 0 %}
+                        <span class="badge green">✅ Available</span>
+                    {% else %}
+                        <span class="badge red">❌ Out of Stock</span>
+                    {% endif %}
+                </div>
+
+       
+                <div class="chip-row">
+                    <span class="chip">🔢 ISBN: {{ book.isbn }}</span>
+                    <span class="chip">📅 {{ book.publication_year }}</span>
+                </div>
+
+             
+                <div class="copies-box">
+                    <p class="copies-text">📚 Copies Available: <b>{{ book.copies_available }}</b></p>
+
+                    <div class="bar">
+                        <div class="bar-fill
+                            {% if book.copies_available <= 0 %}
+                                low
+                            {% elif book.copies_available < 5 %}
+                                mid
+                            {% else %}
+                                high
+                            {% endif %}
+                        "></div>
+                    </div>
+
+                    <p class="small-note">Tip: Keep copies updated when new stock arrives ✅</p>
+                </div>
+
+            </div>
+
+            
+            <div class="book-details">
+
+                <div class="detail-title">
+                    <h3>📌 Book Information</h3>
+                    <p>All details about this book are shown below.</p>
+                </div>
+
+              
+                <div class="detail-grid">
+
+                    <div class="detail-box">
+                        <span class="d-label">📌 Title</span>
+                        <span class="d-value">{{ book.title }}</span>
+                    </div>
+
+                    <div class="detail-box">
+                        <span class="d-label">✍ Author</span>
+                        <span class="d-value">{{ book.author }}</span>
+                    </div>
+
+                    <div class="detail-box">
+                        <span class="d-label">🏷 Genre</span>
+                        <span class="d-value">{{ book.genre }}</span>
+                    </div>
+
+                    <div class="detail-box">
+                        <span class="d-label">📅 Publication Year</span>
+                        <span class="d-value">{{ book.publication_year }}</span>
+                    </div>
+
+                    <div class="detail-box">
+                        <span class="d-label">🔢 ISBN</span>
+                        <span class="d-value">{{ book.isbn }}</span>
+                    </div>
+
+                    <div class="detail-box">
+                        <span class="d-label">📚 Copies Available</span>
+                        <span class="d-value copies">{{ book.copies_available }}</span>
+                    </div>
+
+                </div>
+
+             
+                <div class="extra-section">
+                    <h4>✨ Extra Insights</h4>
+
+                    <div class="extra-grid">
+                        <div class="extra-card">
+                            <h5>📌 Status</h5>
+                            {% if book.copies_available > 0 %}
+                                <p>✅ This book is currently available for reading.</p>
+                            {% else %}
+                                <p>❌ Currently out of stock. Add more copies soon!</p>
+                            {% endif %}
+                        </div>
+
+                        <div class="extra-card">
+                            <h5>📚 Recommendation</h5>
+                            {% if book.genre|lower == "rom-com" or book.genre|lower == "romcom" or book.genre|lower == "romance" %}
+                                <p>❤️ Perfect for a light, sweet and romantic reading mood.</p>
+                            {% elif book.genre|lower == "science" %}
+                                <p>🔬 Great choice for curiosity & learning scientific concepts.</p>
+                            {% elif book.genre|lower == "technology" %}
+                                <p>💻 Best for improving technical knowledge & skills.</p>
+                            {% elif book.genre|lower == "history" %}
+                                <p>🏛️ Learn from the past—events, people and timelines.</p>
+                            {% else %}
+                                <p>📖 A good addition to your library collection!</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+         
+                <div class="btn-row">
+                    <a href="{% url 'show_book_url' %}" class="btn back-btn">⬅ Back</a>
+                    <a href="{% url 'update_book_url' book.id %}" class="btn edit-btn">✏ Edit</a>
+                    <a href="{% url 'delete_book_url' book.id %}" class="btn delete-btn">🗑 Delete</a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

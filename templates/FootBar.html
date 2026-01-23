@@ -1,0 +1,79 @@
+<footer class="footer">
+    <div class="footer-box">
+        <h3>📚 Library Inventory System</h3>
+        <p>Manage Books | Track Copies | Explore variety</p>
+
+        <div class="footer-links">
+            <a href="{% url 'show_book_url' %}">Home</a>
+            <a href="{% url 'create_book_url' %}">Add Book</a>
+        </div>
+
+        <p class="footer-copy">
+            © 2026 Library System | Any-where You Wanted<p>Feel free to contact</p>
+        </p>
+    </div>
+</footer>
+
+<style>
+
+    html, body{
+    height: 100%;
+    margin: 0;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-content{
+    flex: 1;   
+}
+
+.footer{
+    background: #111827;
+    color: white;
+    padding: 25px 15px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.footer-box h3{
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+.footer-box p{
+    margin: 8px 0;
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+.footer-links{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.footer-links a{
+    text-decoration: none;
+    color: #22c55e;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.footer-links a:hover{
+    color: white;
+    text-decoration: underline;
+}
+
+.footer-copy{
+    margin-top: 15px;
+    font-size: 13px;
+    color: #94a3b8;
+}
+
+</style>

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+<title>About - BookHub</title>
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="about-wrap">
+
+  <div class="about-title">
+    <h2>📖 About </h2>
+    <p>Welcome to vi, BookHub, your vibrant, all-access reading playground where independent storytellers and classic authors come together with curious readers from every walk
+       of life. We’ve built a warm, inclusive community that sparks creativity, celebrates every genre, and makes you feel right at home—whether you’re discovering hidden gems or rediscovering time-honored favorites.</p>
+  </div>
+
+  <div class="about-grid">
+
+    <div class="about-card">
+      <h3>✅</h3>
+      <p>
+        We’re transforming Books into a vibrant home for readers and writers to create, connect, and share—right on our platform. Soon, you’ll be able to
+         read and write stories in-app, join writing circles to swap feedback and spark fresh ideas, and showcase your work to a community that’s always hungry for new voices. 
+         Whether you’re drafting your next chapter or diving into someone else’s tale, you’ll find everything you need to fuel your passion without ever leaving the site.
+      </p>
+
+      <h3 style="margin-top: 20px;">🎯 Purpose</h3>
+      <p>
+        For authors, we’ve streamlined the journey from manuscript to masterpiece: submit your story for a quick screening, 
+        get the green light to begin professional editing and cover design, and then publish with your final sign-off. Once your book is live, you’ll earn at least $0.001 per page every 
+        time a reader spends a credit to add it to their library.
+      </p>
+    </div>
+
+    <div class="about-card">
+      <h3>🚀 Key Features</h3>
+      <ul>
+        <li>Different types of books: academic, novels, journals, magazines, etc.</li>
+        <li>Users can register as members</li>
+        <li>Members get access to borrow books</li>
+        <li>Issue books to users</li>
+        <li>Users can reserve a book if it is already issued</li>
+        <li>Daily/monthly report</li>
+      </ul>
+
+      <h3 style="margin-top: 20px;">Genre</h3>
+      <div class="tech">
+        <span>Fantasy</span>
+        <span>Science</span>
+        <span>Motivation</span>
+        <span>Exercies</span>
+        <span>History</span>
+      </div>
+    </div>
+
+  </div>
+
+ 
+  <div class="developer-card">
+    <h3>About</h3>
+    <p>
+      This is for those who wants to read and explore more <b>BOOKS</b>  Join Vi, today—where your creativity shines and your success really matters.
+    </p>
+  </div>
+
+</div>
+
+{% endblock %}
