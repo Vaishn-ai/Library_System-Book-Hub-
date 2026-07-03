@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}<title>BookBot - Chat</title>{% endblock %}
+
+{% block content %}
+<div style="max-width:750px; margin:0 auto; padding:2rem 1rem;">
+
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+    <div>
+      <h2 style="font-size:1.4rem; font-weight:700; color:#1a1a2e;">🤖 BookBot</h2>
+      <p style="font-size:0.85rem; color:#888;">Ask me anything about books in our library!</p>
+    </div>
+    <button onclick="clearChat()"
+      style="padding:0.45rem 1rem; background:#fee2e2; color:#dc2626; border:none; border-radius:8px; font-size:0.8rem; font-weight:600; cursor:pointer;">
+      🗑 Clear Chat
+    </button>
+  </div>
+
+  <!-- Chat Window -->
+  <div id="chat-box"
+    style="background:#f9f9f9; border:1px solid #e0e0e0; border-radius:12px; padding:1.25rem; height:480px; overflow-y:auto; display:flex; flex-direction:column; gap:0.85rem; margin-bottom:1rem;">
+
+    <!-- Welcome message -->
+    <div style="display:flex; gap:0.75rem; align-items:flex-start;">
+      <div style="width:36px; height:36px; background:#4f46e5; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0;">
+        🤖
+      </div>
+      <div style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; border-bottom-left-radius:2px; padding:0.75rem 1rem; max-width:80%; font-size:0.9rem; color:#1a1a2e; line-height:1.6;">
+        Hi <b>{{ request.user.username }}</b>! 👋 I'm BookBot. Ask me to recommend books, find books by genre or author, or help you explore the library!
+      </div>
+    </div>
+
+    <!-- Previous messages -->
+    {% for msg in history %}
+      {% if msg.role == 'user' %}
+        <div style="display:flex; justify-content:flex-end;">
+          <div style="background:#4f46e5; color:#fff; border-radius:12px; border-bottom-right-radius:2px; padding:0.75rem 1rem; max-width:75%; font-size:0.9rem; line-height:1.6;">
+            {{ msg.message }}
+          </div>
+        </div>
+      {% else %}
+        <div style="display:flex; gap:0.75rem; align-items:flex-start;">
+          <div style="width:36px; height:36px; background:#4f46e5; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0;">
+            🤖
+          </div>
+          <div style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; border-bottom-left-radius:2px; padding:0.75rem 1rem; max-width:80%; font-size:0.9rem; color:#1a1a2e; line-height:1.6; white-space:pre-wrap;">
+            {{ msg.message }}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+  </div>
+
+  <!-- Input Box -->
+  <div style="display:flex; gap:0.75rem;">
+    <input id="chat-input" type="text" placeholder="Ask about books, genres, recommendations..."
+      onkeydown="if(event.key==='Enter') sendMessage();"
+      style="flex:1; padding:0.75rem 1rem; border:1px solid #d0d0d0; border-radius:10px; font-size:0.95rem; outline:none;">
+    <button onclick="sendMessage()"
+      style="padding:0.75rem 1.4rem; background:#4f46e5; color:#fff; border:none; border-radius:10px; font-size:0.95rem; font-weight:600; cursor:pointer;">
+      Send
+    </button>
+  </div>
+
+</div>
+
+<script>
+  const chatBox = document.getElementById('chat-box');
+  const input = document.getElementById('chat-input');
+
+  // Auto scroll to bottom
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  function appendMessage(role, text) {
+    const wrap = document.createElement('div');
+
+    if (role === 'user') {
+      wrap.style.cssText = 'display:flex; justify-content:flex-end;';
+      wrap.innerHTML = `
+        <div style="background:#4f46e5; color:#fff; border-radius:12px; border-bottom-right-radius:2px; padding:0.75rem 1rem; max-width:75%; font-size:0.9rem; line-height:1.6;">
+          ${escapeHtml(text)}
+        </div>`;
+    } else if (role === 'typing') {
+      wrap.id = 'typing-indicator';
+      wrap.style.cssText = 'display:flex; gap:0.75rem; align-items:flex-start;';
+      wrap.innerHTML = `
+        <div style="width:36px; height:36px; background:#4f46e5; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0;">🤖</div>
+        <div style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; border-bottom-left-radius:2px; padding:0.75rem 1rem; font-size:0.9rem; color:#aaa;">
+          BookBot is thinking...
+        </div>`;
+    } else {
+      wrap.style.cssText = 'display:flex; gap:0.75rem; align-items:flex-start;';
+      wrap.innerHTML = `
+        <div style="width:36px; height:36px; background:#4f46e5; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0;">🤖</div>
+        <div style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; border-bottom-left-radius:2px; padding:0.75rem 1rem; max-width:80%; font-size:0.9rem; color:#1a1a2e; line-height:1.6; white-space:pre-wrap;">
+          ${escapeHtml(text)}
+        </div>`;
+    }
+
+    chatBox.appendChild(wrap);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    return wrap;
+  }
+
+  function escapeHtml(text) {
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  async function sendMessage() {
+    const text = input.value.trim();
+    if (!text) return;
+
+    input.value = '';
+    input.disabled = true;
+
+    appendMessage('user', text);
+    appendMessage('typing', '');
+
+    try {
+      const res = await fetch("{% url 'chat_api_url' %}", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({ message: text })
+      });
+
+      const data = await res.json();
+
+      // Remove typing indicator
+      const typing = document.getElementById('typing-indicator');
+      if (typing) typing.remove();
+
+      appendMessage('assistant', data.reply || 'Sorry, something went wrong.');
+
+    } catch (err) {
+      const typing = document.getElementById('typing-indicator');
+      if (typing) typing.remove();
+      appendMessage('assistant', 'Connection error. Please try again.');
+    }
+
+    input.disabled = false;
+    input.focus();
+  }
+
+  async function clearChat() {
+    if (!confirm('Clear all chat history?')) return;
+    await fetch("{% url 'chat_clear_url' %}", {
+      method: 'POST',
+      headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+    });
+    chatBox.innerHTML = `
+      <div style="display:flex; gap:0.75rem; align-items:flex-start;">
+        <div style="width:36px; height:36px; background:#4f46e5; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1rem;">🤖</div>
+        <div style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; border-bottom-left-radius:2px; padding:0.75rem 1rem; font-size:0.9rem; color:#1a1a2e; line-height:1.6;">
+          Chat cleared! Ask me anything about books. 📚
+        </div>
+      </div>`;
+  }
+</script>
+
+{% endblock %}

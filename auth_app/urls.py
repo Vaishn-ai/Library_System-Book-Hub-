@@ -1,8 +1,9 @@
-from .views import register_user, login_user, logout_user
 from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('register/', register_user, name='register_url'),
-    path('login/', login_user, name='login_url'),   
-    path('logout/', logout_user, name='logout_url'),
+    path('login/', views.login_view, name='login_url'),
+    path('logout/', views.logout_view, name='logout_url'),
+    path('register/', views.register_view, name='register_url'),
+    path('verify-otp/', views.verify_otp_view, name='verify_otp_url'),
 ]

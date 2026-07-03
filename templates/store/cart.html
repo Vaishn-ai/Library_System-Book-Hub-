@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}<title>My Cart - BookHub</title>{% endblock %}
+
+{% block content %}
+
+<div style="max-width:750px; margin:0 auto; padding:2rem 1.5rem;">
+
+  <h2 style="font-size:1.8rem; font-weight:700; color:#1a1a2e; margin-bottom:1.5rem;">🛒 My Cart</h2>
+
+  {% if messages %}
+    {% for msg in messages %}
+      <div style="padding:0.75rem 1rem; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; color:#16a34a; margin-bottom:1rem;">
+        {{ msg }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  {% if cart_items %}
+    {% for item in cart_items %}
+    <div style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; padding:1.25rem; margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+      <div>
+        <h3 style="font-size:1rem; font-weight:600; color:#1a1a2e; margin-bottom:0.25rem;">{{ item.book.title }}</h3>
+        <p style="font-size:0.85rem; color:#888;">by {{ item.book.author }}</p>
+      </div>
+      <div style="display:flex; align-items:center; gap:1rem;">
+        <span style="font-size:1rem; font-weight:700; color:#4f46e5;">₹{{ item.book.price }}</span>
+        <a href="{% url 'buy_book' item.book.pk %}"
+          style="padding:0.45rem 1rem; background:#16a34a; color:#fff; border-radius:8px; text-decoration:none; font-size:0.85rem; font-weight:600;">
+          Buy
+        </a>
+        <a href="{% url 'remove_from_cart' item.book.pk %}"
+          style="padding:0.45rem 1rem; background:#fee2e2; color:#dc2626; border-radius:8px; text-decoration:none; font-size:0.85rem; font-weight:600;">
+          Remove
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+
+    <!-- Total -->
+    <div style="background:#f8f7ff; border:1px solid #e0dcff; border-radius:12px; padding:1.25rem; text-align:right; margin-top:1rem;">
+      <p style="font-size:1.1rem; font-weight:700; color:#1a1a2e;">Total: <span style="color:#4f46e5;">₹{{ total }}</span></p>
+    </div>
+
+  {% else %}
+    <div style="text-align:center; padding:4rem; color:#aaa;">
+      <p style="font-size:3rem; margin-bottom:1rem;">🛒</p>
+      <p>Your cart is empty.</p>
+      <a href="{% url 'store_home' %}" style="color:#4f46e5; text-decoration:none; font-weight:600;">Browse Books</a>
+    </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

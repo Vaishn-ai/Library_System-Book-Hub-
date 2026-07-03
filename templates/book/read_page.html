@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}<title>{{ book.title }} - Ch {{ chapter.chapter_number }}, Pg {{ page.page_number }}</title>{% endblock %}
+
+{% block content %}
+<div style="max-width:700px; margin:0 auto; padding:2rem 1.5rem;">
+
+  <a href="{% url 'chapter_detail_url' chapter.pk %}" style="color:#4f46e5; text-decoration:none; font-size:0.9rem;">← Back to Chapter</a>
+
+  <div style="background:#fffdf5; border:1px solid #e8e0c8; border-radius:16px; padding:2.5rem; margin-top:1.5rem; min-height:400px;">
+
+    <div style="text-align:center; margin-bottom:2rem;">
+      <p style="font-size:0.8rem; color:#aaa; text-transform:uppercase; letter-spacing:1px;">{{ book.title }}</p>
+      <h2 style="font-size:1.2rem; font-weight:700; color:#1a1a2e; margin-top:0.3rem;">
+        Chapter {{ chapter.chapter_number }}: {{ chapter.title }}
+      </h2>
+    </div>
+
+    <hr style="border:none; border-top:1px solid #e0d8c0; margin-bottom:2rem;">
+
+    <div style="font-size:1.05rem; color:#333; line-height:2; white-space:pre-wrap; font-family:Georgia, serif;">
+      {{ page.content }}
+    </div>
+
+    <p style="text-align:center; color:#bbb; font-size:0.8rem; margin-top:2.5rem;">— Page {{ page.page_number }} —</p>
+
+  </div>
+
+  <!-- Navigation -->
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem; gap:1rem;">
+
+    {% if prev_page %}
+      <a href="{% url 'read_page_url' prev_page.pk %}"
+        style="padding:0.65rem 1.3rem; background:#fff; border:1px solid #ddd; border-radius:8px; color:#1a1a2e; text-decoration:none; font-weight:600; font-size:0.9rem;">
+        ← Previous
+      </a>
+    {% else %}
+      <span></span>
+    {% endif %}
+
+    {% if next_page %}
+      <a href="{% url 'read_page_url' next_page.pk %}"
+        style="padding:0.65rem 1.3rem; background:#4f46e5; border-radius:8px; color:#fff; text-decoration:none; font-weight:600; font-size:0.9rem;">
+        Next →
+      </a>
+    {% elif next_chapter_first_page %}
+      <a href="{% url 'read_page_url' next_chapter_first_page.pk %}"
+        style="padding:0.65rem 1.3rem; background:#16a34a; border-radius:8px; color:#fff; text-decoration:none; font-weight:600; font-size:0.9rem;">
+        Next Chapter →
+      </a>
+    {% else %}
+      <span style="padding:0.65rem 1.3rem; color:#aaa; font-size:0.9rem;">📖 End of Book</span>
+    {% endif %}
+
+  </div>
+
+</div>
+{% endblock %}

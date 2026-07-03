@@ -3,64 +3,71 @@
 
 {% block title %}
 <title>Home - Library System</title>
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
 {% block content %}
 
-<div class="home-wrap">
+<div style="max-width:1100px; margin:0 auto; padding:2rem 1.5rem;">
 
-
-  <div class="welcome-box">
-    <h2>📚 Welcome to BookHub</h2>
-    <p>Manage books, track copies as well as View books.</p>
+  <!-- Welcome Box -->
+  <div style="text-align:center; padding:2.5rem 1rem 2rem;">
+    <h2 style="font-size:2rem; font-weight:700; color:#1a1a2e; margin-bottom:0.5rem;">📚 Welcome to BookHub</h2>
+    <p style="font-size:1rem; color:#555;">Manage books, track copies as well as View books.</p>
   </div>
 
-  <div class="card-grid">
+  <!-- Action Cards -->
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1.25rem; margin-bottom:2.5rem;">
 
-    <a href="#" class="card action-card">
-      <img src="https://cdn-icons-png.flaticon.com/512/167/167756.png" class="card-img" alt="Add Book">
-      <h3>Add Book</h3>
-      <p>Add new books to the inventory.</p>
+    <a href="{% url 'create_book_url' %}" style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; padding:1.5rem 1.25rem; text-align:center; text-decoration:none; color:#1a1a2e; display:block; transition:box-shadow 0.2s;">
+      <img src="https://cdn-icons-png.flaticon.com/512/167/167756.png" style="width:56px; height:56px; margin-bottom:1rem;" alt="Add Book">
+      <h3 style="font-size:1rem; font-weight:600; margin-bottom:0.4rem;">Add Book</h3>
+      <p style="font-size:0.875rem; color:#777;">Add new books to the inventory.</p>
     </a>
 
-    <a href="#" class="card action-card">
-      <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" class="card-img" alt="Show Books">
-      <h3>Show Books</h3>
-      <p>View all books in the system.</p>
+    <a href="{% url 'show_book_url' %}" style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; padding:1.5rem 1.25rem; text-align:center; text-decoration:none; color:#1a1a2e; display:block;">
+      <img src="https://cdn-icons-png.flaticon.com/512/2991/2991148.png" style="width:56px; height:56px; margin-bottom:1rem;" alt="Show Books">
+      <h3 style="font-size:1rem; font-weight:600; margin-bottom:0.4rem;">Show Books</h3>
+      <p style="font-size:0.875rem; color:#777;">View all books in the system.</p>
     </a>
 
-    <a href="#" class="card action-card">
-      <img src="https://cdn-icons-png.flaticon.com/512/1048/1048953.png" class="card-img" alt="Categories">
-      <h3>Categories</h3>
-      <p>Explore books category wise.</p>
+    <a href="{% url 'categories_url' %}" style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; padding:1.5rem 1.25rem; text-align:center; text-decoration:none; color:#1a1a2e; display:block;">
+      <img src="https://cdn-icons-png.flaticon.com/512/1048/1048953.png" style="width:56px; height:56px; margin-bottom:1rem;" alt="Categories">
+      <h3 style="font-size:1rem; font-weight:600; margin-bottom:0.4rem;">Categories</h3>
+      <p style="font-size:0.875rem; color:#777;">Explore books category wise.</p>
     </a>
 
-    <a href="#" class="card action-card">
-      <img src="https://cdn-icons-png.flaticon.com/512/726/726623.png" class="card-img" alt="Contact">
-      <h3>Contact</h3>
-      <p>Get help and support easily.</p>
+    <a href="{% url 'store_home' %}" style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; padding:1.5rem 1.25rem; text-align:center; text-decoration:none; color:#1a1a2e; display:block;">
+      <img src="https://cdn-icons-png.flaticon.com/512/3081/3081559.png" style="width:56px; height:56px; margin-bottom:1rem;" alt="Store">
+      <h3 style="font-size:1rem; font-weight:600; margin-bottom:0.4rem;">Book Store</h3>
+      <p style="font-size:0.875rem; color:#777;">Buy and read books online.</p>
     </a>
 
-  </div> 
+    <a href="{% url 'contact_url' %}" style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; padding:1.5rem 1.25rem; text-align:center; text-decoration:none; color:#1a1a2e; display:block;">
+      <img src="https://cdn-icons-png.flaticon.com/512/726/726623.png" style="width:56px; height:56px; margin-bottom:1rem;" alt="Contact">
+      <h3 style="font-size:1rem; font-weight:600; margin-bottom:0.4rem;">Contact</h3>
+      <p style="font-size:0.875rem; color:#777;">Get help and support easily.</p>
+    </a>
 
-  <div class="info-section">
+  </div>
 
-    <div class="info-card">
-      <img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" class="info-img" alt="Library">
-      <h3>✅ What you can do here</h3>
-      <ul>
+  <!-- Info Section -->
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.25rem;">
+
+    <div style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; padding:1.5rem 1.25rem;">
+      <img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" style="width:48px; height:48px; margin-bottom:1rem;" alt="Library">
+      <h3 style="font-size:1rem; font-weight:600; color:#1a1a2e; margin-bottom:0.75rem;">✅ What you can do here</h3>
+      <ul style="padding-left:1.2rem; color:#555; font-size:0.875rem; line-height:2;">
         <li>Add and manage books quickly</li>
         <li>Track available copies easily</li>
         <li>Search books by title or author</li>
-        <li>Arrange book wisely</li>
+        <li>Arrange books wisely</li>
       </ul>
     </div>
 
-    <div class="info-card">
-      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="info-img" alt="Tips">
-      <h3>🚀 Quick Tips</h3>
-      <ul>
+    <div style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; padding:1.5rem 1.25rem;">
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" style="width:48px; height:48px; margin-bottom:1rem;" alt="Tips">
+      <h3 style="font-size:1rem; font-weight:600; color:#1a1a2e; margin-bottom:0.75rem;">🚀 Quick Tips</h3>
+      <ul style="padding-left:1.2rem; color:#555; font-size:0.875rem; line-height:2;">
         <li>Use <b>Show Books</b> to view all books</li>
         <li>Use <b>Add Book</b> to insert new record</li>
         <li>Keep ISBN unique for every book</li>

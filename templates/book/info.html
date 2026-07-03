@@ -1,185 +1,66 @@
-{% extends "base.html" %}
-{% load static%}
+<div style="max-width:800px; margin:2rem auto 0; padding:0 1.5rem;">
 
-{% block title %}
-<title>Book Details - {{ book.title }}</title>
-<link rel="stylesheet" href="{% static 'css/info.css' %}">
-{% endblock %}
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+    <h3 style="font-size:1.2rem; font-weight:700; color:#1a1a2e;">📑 Chapters</h3>
+    <a href="{% url 'create_chapter_url' book.pk %}"
+      style="padding:0.45rem 1rem; background:#16a34a; color:#fff; border-radius:8px; text-decoration:none; font-size:0.85rem; font-weight:600;">
+      ➕ Add Chapter
+    </a>
+  </div>
 
-{% block content %}
-
-
-<div class="genre-bg
-    {% if book.genre|lower == 'rom-com' or book.genre|lower == 'romcom' or book.genre|lower == 'romance' %}
-        bg-romantic
-    {% elif book.genre|lower == 'science' %}
-        bg-science
-    {% elif book.genre|lower == 'technology' %}
-        bg-tech
-    {% elif book.genre|lower == 'history' %}
-        bg-history
-    {% else %}
-        bg-default
-    {% endif %}
-">
-
-    <div class="overlay"></div>
-
-    <div class="info-wrap">
-
-   
-        <div class="info-head glass">
-            <h2>📖 Book Details</h2>
-            <p>Complete information about the selected book in LibrarySys.</p>
-        </div>
-
- 
-        <div class="info-card glass">
-
-    
-            <div class="book-preview">
-
-           
-                <div class="book-image">
-                    {% if book.genre|lower == "rom-com" or book.genre|lower == "romcom" or book.genre|lower == "romance" %}
-                        <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="Romantic">
-                    {% elif book.genre|lower == "science" %}
-                        <img src="https://cdn-icons-png.flaticon.com/512/2942/2942188.png" alt="Science">
-                    {% elif book.genre|lower == "technology" %}
-                        <img src="https://cdn-icons-png.flaticon.com/512/4712/4712107.png" alt="Technology">
-                    {% elif book.genre|lower == "history" %}
-                        <img src="https://cdn-icons-png.flaticon.com/512/4332/4332452.png" alt="History">
-                    {% else %}
-                        <img src="https://cdn-icons-png.flaticon.com/512/2232/2232688.png" alt="Book">
-                    {% endif %}
-                </div>
-
-                <h3 class="book-title">{{ book.title }}</h3>
-                <p class="book-author">by {{ book.author }}</p>
-
-             
-                <div class="badge-row">
-                    <span class="badge dark">🏷 {{ book.genre }}</span>
-
-                    {% if book.copies_available > 0 %}
-                        <span class="badge green">✅ Available</span>
-                    {% else %}
-                        <span class="badge red">❌ Out of Stock</span>
-                    {% endif %}
-                </div>
-
-       
-                <div class="chip-row">
-                    <span class="chip">🔢 ISBN: {{ book.isbn }}</span>
-                    <span class="chip">📅 {{ book.publication_year }}</span>
-                </div>
-
-             
-                <div class="copies-box">
-                    <p class="copies-text">📚 Copies Available: <b>{{ book.copies_available }}</b></p>
-
-                    <div class="bar">
-                        <div class="bar-fill
-                            {% if book.copies_available <= 0 %}
-                                low
-                            {% elif book.copies_available < 5 %}
-                                mid
-                            {% else %}
-                                high
-                            {% endif %}
-                        "></div>
-                    </div>
-
-                    <p class="small-note">Tip: Keep copies updated when new stock arrives ✅</p>
-                </div>
-
-            </div>
-
-            
-            <div class="book-details">
-
-                <div class="detail-title">
-                    <h3>📌 Book Information</h3>
-                    <p>All details about this book are shown below.</p>
-                </div>
-
-              
-                <div class="detail-grid">
-
-                    <div class="detail-box">
-                        <span class="d-label">📌 Title</span>
-                        <span class="d-value">{{ book.title }}</span>
-                    </div>
-
-                    <div class="detail-box">
-                        <span class="d-label">✍ Author</span>
-                        <span class="d-value">{{ book.author }}</span>
-                    </div>
-
-                    <div class="detail-box">
-                        <span class="d-label">🏷 Genre</span>
-                        <span class="d-value">{{ book.genre }}</span>
-                    </div>
-
-                    <div class="detail-box">
-                        <span class="d-label">📅 Publication Year</span>
-                        <span class="d-value">{{ book.publication_year }}</span>
-                    </div>
-
-                    <div class="detail-box">
-                        <span class="d-label">🔢 ISBN</span>
-                        <span class="d-value">{{ book.isbn }}</span>
-                    </div>
-
-                    <div class="detail-box">
-                        <span class="d-label">📚 Copies Available</span>
-                        <span class="d-value copies">{{ book.copies_available }}</span>
-                    </div>
-
-                </div>
-
-             
-                <div class="extra-section">
-                    <h4>✨ Extra Insights</h4>
-
-                    <div class="extra-grid">
-                        <div class="extra-card">
-                            <h5>📌 Status</h5>
-                            {% if book.copies_available > 0 %}
-                                <p>✅ This book is currently available for reading.</p>
-                            {% else %}
-                                <p>❌ Currently out of stock. Add more copies soon!</p>
-                            {% endif %}
-                        </div>
-
-                        <div class="extra-card">
-                            <h5>📚 Recommendation</h5>
-                            {% if book.genre|lower == "rom-com" or book.genre|lower == "romcom" or book.genre|lower == "romance" %}
-                                <p>❤️ Perfect for a light, sweet and romantic reading mood.</p>
-                            {% elif book.genre|lower == "science" %}
-                                <p>🔬 Great choice for curiosity & learning scientific concepts.</p>
-                            {% elif book.genre|lower == "technology" %}
-                                <p>💻 Best for improving technical knowledge & skills.</p>
-                            {% elif book.genre|lower == "history" %}
-                                <p>🏛️ Learn from the past—events, people and timelines.</p>
-                            {% else %}
-                                <p>📖 A good addition to your library collection!</p>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-
-         
-                <div class="btn-row">
-                    <a href="{% url 'show_book_url' %}" class="btn back-btn">⬅ Back</a>
-                    <a href="{% url 'update_book_url' book.id %}" class="btn edit-btn">✏ Edit</a>
-                    <a href="{% url 'delete_book_url' book.id %}" class="btn delete-btn">🗑 Delete</a>
-                </div>
-
-            </div>
-
-        </div>
+  {% if chapters %}
+    {% for chapter in chapters %}
+    <div style="background:#fff; border:1px solid #e0e0e0; border-radius:10px; padding:1rem 1.25rem; margin-bottom:0.75rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
+      <div>
+        <h4 style="font-size:0.95rem; font-weight:600; color:#1a1a2e;">Chapter {{ chapter.chapter_number }}: {{ chapter.title }}</h4>
+        <p style="font-size:0.8rem; color:#999;">{{ chapter.total_pages }} page{{ chapter.total_pages|pluralize }}</p>
+      </div>
+      <div style="display:flex; gap:0.5rem;">
+        <a href="{% url 'chapter_detail_url' chapter.pk %}"
+          style="padding:0.4rem 0.85rem; background:#4f46e5; color:#fff; border-radius:6px; text-decoration:none; font-size:0.8rem; font-weight:600;">
+          Open
+        </a>
+        {% if user.is_staff %}
+        <a href="{% url 'update_chapter_url' book.pk %}"
+          style="padding:0.4rem 0.85rem; background:#f59e0b; color:#fff; border-radius:6px; text-decoration:none; font-size:0.8rem; font-weight:600;">
+          Edit
+        </a>
+        <a href="{% url 'delete_chapter_url' book.pk %}"
+          onclick="return confirm('Are you sure you want to delete this book?');"
+          style="padding:0.4rem 0.85rem; background:#fee2e2; color:#dc2626; border-radius:6px; text-decoration:none; font-size:0.8rem; font-weight:600;">
+          Delete
+        </a>
+      {% else %}
+        <a href="javascript:void(0)" onclick="alert('Only admin can update or delete books.')"
+          style="padding:0.4rem 0.85rem; background:#f59e0b; color:#fff; border-radius:6px; text-decoration:none; font-size:0.8rem; font-weight:600; opacity:0.6;">
+          Edit
+        </a>
+        <a href="javascript:void(0)" onclick="alert('Only admin can update or delete books.')"
+          style="padding:0.4rem 0.85rem; background:#fee2e2; color:#dc2626; border-radius:6px; text-decoration:none; font-size:0.8rem; font-weight:600; opacity:0.6;">
+          Delete
+        </a>
+      {% endif %}
+      </div>
     </div>
-</div>
 
-{% endblock %}
+    <div style="margin:1rem 0; display:flex; gap:0.75rem; flex-wrap:wrap;">
+        {% if book.is_free %}
+            <span style="padding:0.6rem 1.4rem; background:#16a34a; color:#fff; border-radius:8px; font-weight:600;">FREE</span>
+        {% else %}
+            <span style="font-size:1.3rem; font-weight:700; color:#4f46e5;">₹{{ book.price }}</span>
+            <a href="{% url 'add_to_cart' book.pk %}"
+            style="padding:0.6rem 1.4rem; background:#4f46e5; color:#fff; border-radius:8px; text-decoration:none; font-weight:600;">
+            🛒 Add to Cart
+            </a>
+            <a href="{% url 'buy_book' book.pk %}"
+            style="padding:0.6rem 1.4rem; background:#dc2626; color:#fff; border-radius:8px; text-decoration:none; font-weight:600;">
+            ⚡ Buy Now
+            </a>
+        {% endif %}
+        </div>
+    {% endfor %}
+  {% else %}
+    <p style="color:#aaa; text-align:center; padding:2rem;">No chapters added yet.</p>
+  {% endif %}
+
+</div>

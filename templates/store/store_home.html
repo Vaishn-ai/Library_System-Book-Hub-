@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}<title>Book Store - BookHub</title>{% endblock %}
+
+{% block content %}
+
+<div style="max-width:1100px; margin:0 auto; padding:2rem 1.5rem;">
+
+  <!-- Header -->
+  <div style="text-align:center; padding:2rem 0 1.5rem;">
+    <h2 style="font-size:2rem; font-weight:700; color:#1a1a2e; margin-bottom:0.5rem;">🛒 Book Store</h2>
+    <p style="color:#777; font-size:1rem;">Browse, read and buy your favourite books.</p>
+  </div>
+
+  <!-- Category Filter -->
+  <div style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-bottom:2rem; justify-content:center;">
+    <a href="{% url 'store_home' %}">
+      All
+    </a>
+    {% for cat in categories %}
+    <a href="?category={{ cat.name }}">
+
+      {{ cat }}
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- Books Grid -->
+  {% if books %}
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:1.5rem;">
+    {% for book in books %}
+    <div style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; overflow:hidden;">
+
+      <!-- Cover -->
+      {% if book.cover_image %}
+        <img src="{{ book.cover_image.url }}" alt="{{ book.title }}"
+          style="width:100%; height:180px; object-fit:cover;">
+      {% else %}
+        <div style="width:100%; height:180px; background:#f0eeff; display:flex; align-items:center; justify-content:center; font-size:3rem;">
+          📖
+        </div>
+      {% endif %}
+
+      <!-- Info -->
+      <div style="padding:1rem;">
+        <h3 style="font-size:1rem; font-weight:600; color:#1a1a2e; margin-bottom:0.25rem;">{{ book.title }}</h3>
+        <p style="font-size:0.8rem; color:#888; margin-bottom:0.5rem;">by {{ book.author }}</p>
+        <p style="font-size:0.8rem; color:#aaa; margin-bottom:0.75rem;">{{ book.category }}</p>
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          {% if book.is_free %}
+            <span style="color:#16a34a; font-weight:700; font-size:0.95rem;">FREE</span>
+          {% else %}
+            <span style="color:#4f46e5; font-weight:700; font-size:0.95rem;">₹{{ book.price }}</span>
+          {% endif %}
+          <a href="{% url 'book_detail' book.pk %}"
+            style="padding:0.4rem 0.9rem; background:#4f46e5; color:#fff; border-radius:8px; font-size:0.8rem; text-decoration:none; font-weight:600;">
+            View
+          </a>
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div style="text-align:center; padding:4rem; color:#aaa;">
+    <p style="font-size:3rem; margin-bottom:1rem;">📭</p>
+    <p style="font-size:1rem;">No books found in this category.</p>
+  </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

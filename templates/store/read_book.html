@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}<title>Reading: {{ book.title }}</title>{% endblock %}
+
+{% block content %}
+
+<div style="max-width:750px; margin:0 auto; padding:2rem 1.5rem;">
+
+  <a href="{% url 'book_detail' book.pk %}" style="color:#4f46e5; text-decoration:none; font-size:0.9rem;">← Back to Book</a>
+
+  <div style="background:#fffdf5; border:1px solid #e8e0c8; border-radius:16px; padding:2.5rem; margin-top:1.5rem;">
+
+    <h2 style="font-size:1.5rem; font-weight:700; color:#1a1a2e; margin-bottom:0.25rem;">{{ book.title }}</h2>
+    <p style="color:#888; font-size:0.9rem; margin-bottom:2rem;">by {{ book.author }}</p>
+
+    <hr style="border:none; border-top:1px solid #e0d8c0; margin-bottom:2rem;">
+
+    <div style="font-size:1rem; color:#333; line-height:1.9; white-space:pre-wrap; font-family:Georgia, serif;">
+      {{ book.content }}
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

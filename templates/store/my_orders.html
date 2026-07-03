@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}<title>My Orders - BookHub</title>{% endblock %}
+
+{% block content %}
+
+<div style="max-width:750px; margin:0 auto; padding:2rem 1.5rem;">
+
+  <h2 style="font-size:1.8rem; font-weight:700; color:#1a1a2e; margin-bottom:1.5rem;">📦 My Orders</h2>
+
+  {% if orders %}
+    {% for order in orders %}
+    <div style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; padding:1.25rem; margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+      <div>
+        <h3 style="font-size:1rem; font-weight:600; color:#1a1a2e; margin-bottom:0.25rem;">{{ order.book.title }}</h3>
+        <p style="font-size:0.85rem; color:#888;">by {{ order.book.author }}</p>
+        <p style="font-size:0.8rem; color:#aaa; margin-top:0.25rem;">{{ order.ordered_at|date:"d M Y, H:i" }}</p>
+      </div>
+      <div style="display:flex; align-items:center; gap:1rem;">
+        <span style="padding:0.35rem 0.85rem; background:#f0fdf4; color:#16a34a; border-radius:20px; font-size:0.8rem; font-weight:600; border:1px solid #bbf7d0;">
+          {{ order.status|capfirst }}
+        </span>
+        {% with first_page=order.book.chapters.first.pages.first %}
+        {% if first_page %}
+          <a href="{% url 'read_page_url' first_page.pk %}"
+            style="padding:0.45rem 1rem; background:#4f46e5; color:#fff; border-radius:8px; text-decoration:none; font-size:0.85rem; font-weight:600;">
+            📖 Read
+          </a>
+  {% else %}
+    <span style="padding:0.45rem 1rem; color:#aaa; font-size:0.85rem;">No content yet</span>
+  {% endif %}
+{% endwith %}
+      </div>
+    </div>
+    {% endfor %}
+
+  {% else %}
+    <div style="text-align:center; padding:4rem; color:#aaa;">
+      <p style="font-size:3rem; margin-bottom:1rem;">📭</p>
+      <p>No orders yet.</p>
+      <a href="{% url 'store_home' %}" style="color:#4f46e5; text-decoration:none; font-weight:600;">Browse Books</a>
+    </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

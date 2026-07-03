@@ -12,17 +12,17 @@
 
       {% if user.is_authenticated %}
         <li><a href="{% url 'create_book_url' %}" class="link">Form</a></li>
-        <li><a href="{% url 'show2_book_url' %}" class="link">Show</a></li>
+        <li><a href="{% url 'show_book_url' %}" class="link">Show</a></li>
       {% endif %}
 
       
       <li><a href="{% url 'about_url' %}" class="link">About</a></li>
       <li><a href="{% url 'contact_url' %}" class="link">Contact</a></li>
       <li><a href="{% url 'categories_url' %}" class="link">Categories</a></li>
+      <a href="{% url 'chat_url' %}">Chat</a>
 
       {% if user.is_authenticated and user.is_superuser %}
-        <li><a href="{% url 'show_book_url' %}" class="link">Edit</a></li>
-        <li><a href="/admin/" class="link admin">Admin</a></li>
+      <li><a href="/admin/" class="link admin">Admin</a></li>
       {% endif %}
     </ul>
 

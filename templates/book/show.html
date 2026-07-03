@@ -1,112 +1,144 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}
-<title>All Books</title>
-<link rel="stylesheet" href="{% static 'css/show.css' %}">
-{% endblock %}
+{% block title %}<title>All Books</title>{% endblock %}
 
 {% block content %}
 
-<form method="GET" class="filter-box">
+<div style="max-width:1100px; margin:0 auto; padding:2rem 1.5rem;">
 
-    <input type="text" name="author" placeholder="Filter by Author"
-           value="{{ author|default:'' }}">
+  <!-- Header -->
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;">
+    <h2 style="font-size:1.6rem; font-weight:700; color:#1a1a2e;">📚 Library Books</h2>
+    <a href="{% url 'create_book_url' %}"
+      style="padding:0.55rem 1.2rem; background:#16a34a; color:#fff; border-radius:8px; text-decoration:none; font-weight:600; font-size:0.9rem;">
+      + Add Book
+    </a>
+  </div>
 
-    <input type="text" name="genre" placeholder="Filter by Genre"
-           value="{{ genre|default:'' }}">
-
-    <input type="number" name="year_from" placeholder="Year From"
-           value="{{ year_from|default:'' }}">
-
-    <input type="number" name="year_to" placeholder="Year To"
-           value="{{ year_to|default:'' }}">
-
-    <select name="sort" class="sort-select">
+  <!-- Filter Bar -->
+  <div style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; padding:1.25rem; margin-bottom:2rem;">
+    <form method="GET" style="display:flex; flex-wrap:wrap; gap:0.75rem; align-items:center;">
+      <input type="text" name="author" placeholder="Filter by Author" value="{{ author|default:'' }}"
+        style="flex:1; min-width:140px; padding:0.55rem 0.85rem; border:1px solid #d0d0d0; border-radius:8px; font-size:0.875rem; outline:none;">
+      <input type="text" name="genre" placeholder="Filter by Genre" value="{{ genre|default:'' }}"
+        style="flex:1; min-width:140px; padding:0.55rem 0.85rem; border:1px solid #d0d0d0; border-radius:8px; font-size:0.875rem; outline:none;">
+      <input type="number" name="year_from" placeholder="Year From" value="{{ year_from|default:'' }}"
+        style="width:110px; padding:0.55rem 0.85rem; border:1px solid #d0d0d0; border-radius:8px; font-size:0.875rem; outline:none;">
+      <input type="number" name="year_to" placeholder="Year To" value="{{ year_to|default:'' }}"
+        style="width:110px; padding:0.55rem 0.85rem; border:1px solid #d0d0d0; border-radius:8px; font-size:0.875rem; outline:none;">
+      <select name="sort"
+        style="flex:1; min-width:160px; padding:0.55rem 0.85rem; border:1px solid #d0d0d0; border-radius:8px; font-size:0.875rem; outline:none; background:#fff;">
         <option value="">-- Sort By --</option>
-
-        <option value="title_asc" {% if sort == "title_asc" %}selected{% endif %}>
-            Title (A-Z)
-        </option>
-        <option value="title_desc" {% if sort == "title_desc" %}selected{% endif %}>
-            Title (Z-A)
-        </option>
-
-        <option value="year_new" {% if sort == "year_new" %}selected{% endif %}>
-            Publication Year (Newest)
-        </option>
-        <option value="year_old" {% if sort == "year_old" %}selected{% endif %}>
-            Publication Year (Oldest)
-        </option>
-
-        <option value="copies_high" {% if sort == "copies_high" %}selected{% endif %}>
-            Copies (High → Low)
-        </option>
-        <option value="copies_low" {% if sort == "copies_low" %}selected{% endif %}>
-            Copies (Low → High)
-        </option>
-    </select>   
-
-    <button type="submit" class="filter-btn">Apply</button>
-    <a href="{% url 'show_book_url' %}" class="clear-btn">Clear</a>
-
-
-</form>
-
-
-<div class="show-container">
-
-    <div class="top-bar">
-        <h2>📚 Library Books</h2>
-
-        <a href="{% url 'create_book_url' %}" class="add-btn">+ Add Book</a>
-    </div>
-
-    <form method="GET" class="search-box">
-        <input type="text" name="q" placeholder="Search book by title / author..." value="{{ request.GET.q }}">
-        <button type="submit">Search</button>
+        <option value="title_asc" {% if sort == "title_asc" %}selected{% endif %}>Title (A-Z)</option>
+        <option value="title_desc" {% if sort == "title_desc" %}selected{% endif %}>Title (Z-A)</option>
+        <option value="year_new" {% if sort == "year_new" %}selected{% endif %}>Year (Newest)</option>
+        <option value="year_old" {% if sort == "year_old" %}selected{% endif %}>Year (Oldest)</option>
+        <option value="copies_high" {% if sort == "copies_high" %}selected{% endif %}>Copies (High)</option>
+        <option value="copies_low" {% if sort == "copies_low" %}selected{% endif %}>Copies (Low)</option>
+      </select>
+      <button type="submit"
+        style="padding:0.55rem 1.1rem; background:#4f46e5; color:#fff; border:none; border-radius:8px; font-size:0.875rem; font-weight:600; cursor:pointer;">
+        Apply
+      </button>
+      <a href="{% url 'show_book_url' %}"
+        style="padding:0.55rem 1.1rem; background:#fff; color:#555; border:1px solid #d0d0d0; border-radius:8px; font-size:0.875rem; font-weight:600; text-decoration:none;">
+        Clear
+      </a>
     </form>
+  </div>
 
-        <div class="table-box">
-        <table>
-            <thead>
-                <tr>
-                    <th>Sr No</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Genre</th>
-                    <th>Year</th>
-                    <th>ISBN</th>
-                    <th>Copies</th>
-                    <th colspan="3">Actions</th>
-                </tr>
-            </thead>
+  <!-- Book Cards Grid -->
+  {% if books %}
+  <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:1.5rem;">
+    {% for book in books %}
 
-            <tbody>
-                {% for book in books %}
-                <tr>
-                    <td>{{ forloop.counter }}</td>
-                    <td>{{ book.title }}</td>
-                    <td>{{ book.author }}</td>
-                    <td>{{ book.genre }}</td>
-                    <td>{{ book.publication_year }}</td>
-                    <td>{{ book.isbn }}</td>
-                    <td>{{ book.copies_available }}</td>
+    <!-- Card wrapper — NOT an <a> tag -->
+    <div style="background:#fff; border:1px solid #e0e0e0; border-radius:12px; overflow:hidden; display:flex; flex-direction:column;">
 
-                    <td class="actions">
-                        <a href="{% url 'info_book_url' book.id %}" class="info-btn">Info</a>
-                        <a href="{% url 'update_book_url' book.id %}" class="edit-btn">Update</a>
-                        <a href="{% url 'delete_book_url' book.id %}" class="delete-btn">Delete</a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="8" class="empty-msg">No books found ❌</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+      <!-- Clickable top section — cover + info -->
+      <a href="{% url 'info_book_url' book.pk %}" style="text-decoration:none; color:#1a1a2e; flex:1; display:block;">
+
+        {% if book.cover_image %}
+          <img src="{{ book.cover_image.url }}" alt="{{ book.title }}"
+            style="width:100%; aspect-ratio:1/1; object-fit:cover; display:block;">
+        {% else %}
+          <div style="width:100%; aspect-ratio:1/1; background:#f0eeff; display:flex; align-items:center; justify-content:center; font-size:3rem;">
+            📖
+          </div>
+        {% endif %}
+
+        <div style="padding:0.85rem 0.85rem 0.5rem;">
+          <h3 style="font-size:0.9rem; font-weight:700; color:#1a1a2e; margin-bottom:0.25rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+            {{ book.title }}
+          </h3>
+          <p style="font-size:0.78rem; color:#888; margin-bottom:0.4rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+            by {{ book.author }}
+          </p>
+
+          <div style="display:flex; flex-wrap:wrap; gap:0.3rem; margin-bottom:0.5rem;">
+            {% for g in book.genres.all %}
+              <span style="font-size:0.68rem; background:#f0eeff; color:#4f46e5; padding:0.15rem 0.45rem; border-radius:20px; font-weight:500;">
+                {{ g.name }}
+              </span>
+            {% endfor %}
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.75rem; color:#aaa;">{{ book.publication_year }}</span>
+            {% if book.is_free %}
+              <span style="font-size:0.75rem; color:#16a34a; font-weight:700;">FREE</span>
+            {% else %}
+              <span style="font-size:0.75rem; color:#4f46e5; font-weight:700;">₹{{ book.price }}</span>
+            {% endif %}
+          </div>
+        </div>
+      </a>
+
+      <!-- Action buttons — OUTSIDE the <a> tag -->
+      <div style="padding:0.5rem 0.85rem 0.85rem; display:flex; gap:0.4rem;">
+        {% if user.is_staff or book.owner == user %}
+            <a href="{% url 'update_book_url' book.pk %}"
+            style="flex:1; text-align:center; padding:0.4rem; background:#f59e0b; color:#fff; border-radius:6px; font-size:0.75rem; font-weight:600; text-decoration:none;">
+            ✏️ Edit
+            </a>
+            <a href="{% url 'delete_book_url' book.pk %}"
+            onclick="return confirm('Delete {{ book.title }}?');"
+            style="flex:1; text-align:center; padding:0.4rem; background:#fee2e2; color:#dc2626; border-radius:6px; font-size:0.75rem; font-weight:600; text-decoration:none;">
+            🗑 Delete
+            </a>
+        {% else %}
+            <button onclick="alert('You can only edit or delete your own books.')"
+            style="flex:1; padding:0.4rem; background:#f59e0b; color:#fff; border:none; border-radius:6px; font-size:0.75rem; font-weight:600; cursor:pointer; opacity:0.4;">
+            ✏️ Edit
+            </button>
+            <button onclick="alert('You can only edit or delete your own books.')"
+            style="flex:1; padding:0.4rem; background:#fee2e2; color:#dc2626; border:none; border-radius:6px; font-size:0.75rem; font-weight:600; cursor:pointer; opacity:0.4;">
+            🗑 Delete
+            </button>
+        {% endif %}
+        </div>
+
+        <p style="font-size:0.72rem; color:#bbb; margin-top:0.3rem;">
+        Added by {{ book.owner.username|default:"unknown" }}
+        </p>
+
     </div>
+
+    {% endfor %}
+  </div>
+
+  {% else %}
+  <div style="text-align:center; padding:4rem; color:#aaa;">
+    <p style="font-size:3rem; margin-bottom:1rem;">📭</p>
+    <p style="font-size:1rem;">No books found. Try clearing filters or add a new book.</p>
+    <a href="{% url 'create_book_url' %}"
+      style="display:inline-block; margin-top:1rem; padding:0.65rem 1.5rem; background:#4f46e5; color:#fff; border-radius:8px; text-decoration:none; font-weight:600;">
+      + Add Book
+    </a>
+  </div>
+  {% endif %}
+
 </div>
 
 {% endblock %}
